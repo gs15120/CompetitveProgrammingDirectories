@@ -1,3 +1,15 @@
+/*
+
+First, it's easy to know that making size 1 component is always possible, and size n is always impossible.
+Also, we can make size i component if and only if we can make size n-i component.
+(If we make size i component by removing an edge, the left part of tree's size will be n-i)
+
+
+
+*/
+
+
+
 #include <bits/stdc++.h>
 using namespace std;
 //using lint = long long;
