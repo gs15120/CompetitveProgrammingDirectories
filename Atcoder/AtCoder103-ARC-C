@@ -1,0 +1,134 @@
+/*
+
+If you want, next time I will cleen things in the code which are useless to solve the problem.
+
+
+
+I searched the most common number and the second number at a1,a3,a5...  also at a2,a4,a6...
+We need 2 different numbers, if the most common numbers are different, print out |a|-(the number of the most common numbers).
+If their r same, print out |a|-max((the number of most common number of a1,a3,a5...)+(second of a2,a4,a6...),(second of a1,a3..)+(most of a2,a4,a6...))
+
+
+*/
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x, y;
+
+    bool operator<(const P &a)const{
+              return y>a.y;
+    }
+
+};
+
+
+//vector<P> v[100100];
+vector<int> v;
+//bitset<4001000> b;
+int a,c,i,b,n,m,k,d;//dy[15]={0,1,0,-1,-1,1,-1,1},dx[15]={1,0,-1,0,1,1,-1,-1};//
+int o[111111];
+int l[111111];
+//int z1[1000100],z2[1000100];
+int j[1];
+int e[1];
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long x,y,mod=1000000007,mod2=1000000009,mod3=2017;
+long long z;
+double pi=3.14159265;
+P u[1];
+//stack<int> s;
+
+//set<long long> s;
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<long long,int> p;
+//list<int> l;
+
+//string r;
+//char r[1100222],r1[1101000];
+//deque<int> de;
+//srand((int)time(NULL));
+
+
+bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}
+
+
+int main()
+{
+    scanf("%d",&a);
+    for(int t=1;t<=a;t++)
+        scanf("%d",&o[t]);
+    n=0;
+    m=0;
+    c=0;
+    d=0;
+
+    int n1,m1,c1,d1;
+    n1=m1=c1=d1=0;
+    for(int t=1;t<=a;t+=2)
+    {
+        l[o[t]]++;
+        if(l[o[t]]>=m)
+        {
+            c=n;
+            d=m;
+            n=o[t];
+            m=l[o[t]];
+        }
+        else if(l[o[t]]>=d)
+        {
+            d=l[o[t]];
+            c=o[t];
+        }
+    }
+    memset(l,0,sizeof(l));
+
+
+    for(int t=2;t<=a;t+=2)
+    {
+        l[o[t]]++;
+        if(l[o[t]]>=m1)
+        {
+            c1=n1;
+            d1=m1;
+            n1=o[t];
+            m1=l[o[t]];
+        }
+        else if(l[o[t]]>=d1)
+        {
+            d1=l[o[t]];
+            c1=o[t];
+        }
+    }
+
+    if(n1==n)
+    {
+        int x=max(m1,m);
+        if(n1!=c)
+        x=max(x,m1+d);
+        if(n!=c1)
+            x=max(x,m+d1);
+        if(c1!=c)
+            x=max(x,d1+d);
+        printf("%d",a-x);
+    }
+    else
+    printf("%d",a-m1-m);
+}
