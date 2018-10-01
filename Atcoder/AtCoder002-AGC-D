@@ -1,0 +1,97 @@
+/*
+http://agc002.contest.atcoder.jp/data/agc/002/editorial.pdf
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x, y,z;
+
+    bool operator<(const P &a)const{
+              return y>a.y;
+    }
+
+};
+
+vector<P> v;
+
+//bitset<4001000> b;
+int a,c,i,b,n,m,k,d[111111];
+P o[111111];
+int l[111111];
+int j[111111];
+int e;
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long x,y,mod=1000000007,mod2=1000000009,mod3=2017;
+long long z;
+double pi=3.14159265;
+P u[111111];
+//stack<int> s;
+//set<long long> s;
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<long long,int> p;
+//list<int> l;
+
+string r;
+//char r[1100222],r1[1101000];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return (a.y+a.x)<(b.y+b.x);
+}
+
+int f(int n)
+{
+    if(j[n]==n) return n;
+    return j[n]=f(j[n]);
+}
+
+int main()
+{
+    scanf("%d %d",&a,&b);
+    for(int t=1;t<=b;t++)
+        scanf("%d %d",&o[t].x,&o[t].y);
+    scanf("%d",&c);
+    for(int t=1;t<=c;t++)
+    {
+        scanf("%d %d %d",&u[t].x,&u[t].y,&u[t].z);
+        v.push_back({1,b,t});
+    }
+    for(int t=1;t<=20;t++)
+    {
+        for(int i=1;i<=a;i++)
+            j[i]=i,d[i]=1;
+        sort(v.begin(),v.end(),as);
+        int p=1;
+        for(int i=0;i<c;i++)
+        {
+            for(;p<=(v[i].x+v[i].y)/2;p++)
+            if(f(o[p].x)!=f(o[p].y))
+            {
+                d[f(o[p].y)]+=d[f(o[p].x)];
+                j[f(o[p].x)]=f(o[p].y);
+            }
+            int n=0;
+            if(f(u[v[i].z].x)!=f(u[v[i].z].y)) n=d[f(u[v[i].z].x)]+d[f(u[v[i].z].y)];
+            else n=d[f(u[v[i].z].x)];
+            if(n<u[v[i].z].z)
+                v.push_back({(v[i].x+v[i].y)/2+1,v[i].y,v[i].z});
+            else v.push_back({v[i].x,(v[i].x+v[i].y)/2,v[i].z});
+        }
+        v.erase(v.begin(),v.begin()+c);
+    }
+    for(int h=0;h<v.size();h++)
+        l[v[h].z]=v[h].x;
+    for(int t=1;t<=c;t++)
+        printf("%d\n",l[t]);
+}
