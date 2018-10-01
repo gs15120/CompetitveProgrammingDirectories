@@ -1,0 +1,113 @@
+
+/*
+http://codeforces.com/blog/entry/53943?locale=en
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x, y,z;
+
+    bool operator<(const P &a)const{
+              return y>a.y;
+    }
+
+};
+
+vector<int> v;
+
+//bitset<4001000> b;
+int a,i,b,n,m,k;
+long long c[1333][1333];
+long long o[333];
+long long l[333];
+long long j[333];
+long long f[333];
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long x,y,mod=1000000007,mod2=1000000009,mod3=2017;
+long long z;
+double pi=3.14159265;
+P u[1];
+//stack<int> s;
+//set<long long> s;
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<long long,int> p;
+//list<int> l;
+
+string r;
+//char r[1100222],r1[1101000];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return (a.y+a.x)<(b.y+b.x);
+}
+
+int main()
+{
+    f[1]=1;
+    for(int i=2;i<=300;i++)
+        f[i]=(f[i-1]*i)%mod;
+    for(int i=0;i<=1000;i++)
+        c[i][0]=c[i][i]=1;
+    for(int i=1;i<=1000;i++)
+        for(int j=1;j<i;j++)
+        c[i][j]=(c[i-1][j]+c[i-1][j-1])%mod;
+
+    scanf("%d",&a);
+    for(int i=1;i<=a;i++)
+    {
+        scanf("%lld",&o[i]);
+        for(int j=1;j<i;j++)
+        {
+            long long n=sqrt(o[i]*o[j]);
+            if(n*n==o[i]*o[j])
+            {
+                l[i]=l[j];
+                v[l[j]-1]++;
+                break;
+            }
+        }
+        if(!l[i])
+        {
+            v.push_back(1);
+            l[i]=v.size();
+        }
+    }
+    memset(l,0,sizeof(l));
+    l[v[0]-1]=1;
+    n=v[0];
+    for(int i=1;i<v.size();n+=v[i],i++)
+    {
+        for(int k=1;k<=v[i];k++)
+        {
+            for(int p=0;p<a;p++)
+            for(int m=0;m<=p&&m<=k;m++)
+            if(n+1-p>=k-m)
+            {
+
+                j[p-m+(v[i]-k)]+=c[v[i]-1][k-1]*c[p][m]%mod*c[n+1-p][k-m]%mod*l[p]%mod;
+                j[p-m+(v[i]-k)]%=mod;
+            }
+            
+        }
+        for(int k=0;k<a;k++)
+        {
+            l[k]=j[k],j[k]=0;
+        }
+    }
+    x=l[0];
+    for(int i=0;i<v.size();i++)
+        x*=f[v[i]],x%=mod;
+    printf("%lld",x);
+}
