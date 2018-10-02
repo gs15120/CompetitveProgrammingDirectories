@@ -14,7 +14,7 @@ Start from the root this time. Every vertices are its child, the sum of distance
 Then, look at the direct childrens. We can know it will be
 (sum of distance not child)=(parents sum of distance)-(sum of distance child)+(distance to parent)*(N-2*(number of children+1))
 At last, the answer will be the sum of (distance not child)+(distance child).
-time complexty:O()
+time complexty:O(N)
 */
 
 
