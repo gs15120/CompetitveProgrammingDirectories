@@ -1,0 +1,128 @@
+/*
+It is almost similar with
+https://www.hackerrank.com/contests/101hack22/challenges/sum-of-all-distances/editorial
+But I know I must practice to explane my code :)
+
+Fist, start bfs from the leaves. There will be no children, so the the sum of distance of children will be 0.
+Then, add (the number of children+1),(the sum of distance)+(distance to the parent)*(the number of children+1)
+to know the number of children, the sum of distance of the parent vertex at O(1).
+Repeat it at the parent vertices until the root of the tree is done.
+
+We calculated each vertices sum of distance from the children.
+Now, We will add the sum of distance from the other vertices.
+Start from the root this time. Every vertices are its child, the sum of distances from not child will be 0. 
+Then, look at the direct childrens. We can know it will be
+(sum of distance not child)=(parents sum of distance)-(sum of distance child)+(distance to parent)*(N-2*(number of children+1))
+At last, the answer will be the sum of (distance not child)+(distance child).
+time complexty:O()
+*/
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x, y;
+
+    bool operator<(const P &a)const{
+              return y>a.y;
+    }
+
+};
+
+vector<P> v[100100];
+
+//bitset<4001000> b;
+int a,i,b[100100],n,d,c,m,k;
+
+int o[100333];
+int l[100333];
+long long j[100333];
+
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long x,y,mod=1000000007,mod2=1000000009,mod3=2017;
+long long z;
+double pi=3.14159265;
+long long u[100100];
+stack<int> s;
+//set<long long> s;
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<long long,int> p;
+//list<int> l;
+
+string r;
+//char r[1100222],r1[1101000];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return (a.y+a.x)<(b.y+b.x);
+}
+
+int main()
+{
+    scanf("%d",&c);
+    //c=1;
+    for(int t=1;t<=c;t++)
+    {
+        scanf("%d",&a);
+        memset(l,-1,sizeof(l));
+        for(int i=1;i<a;i++)
+        {
+            scanf("%d %d %d",&n,&m,&d);
+            v[n].push_back({m,d});
+            v[m].push_back({n,d});
+        }
+        for(int i=1;i<=a;i++)
+            if(v[i].size()==1) q.push(i);
+        for(;q.size();q.pop())
+        {
+            s.push(q.front());
+            o[q.front()]++;
+            m=-1;
+            for(int i=0;i<v[q.front()].size();i++)
+                if(l[v[q.front()][i].x]<0)
+                {
+                    m=i;
+                    break;
+                }
+            if(m>=0)
+            {
+                b[v[q.front()][m].x]++;
+                if(b[v[q.front()][m].x]==v[v[q.front()][m].x].size()-1)
+                    q.push(v[q.front()][m].x);
+                o[v[q.front()][m].x]+=o[q.front()];
+                l[q.front()]=v[q.front()][m].x;
+                j[v[q.front()][m].x]+=j[q.front()]+(long long)o[q.front()]*v[q.front()][m].y;
+            }
+        }
+        for(;s.size();)
+        {
+            n=s.top();
+            s.pop();
+            for(int i=0;i<v[n].size();i++)
+            if(l[v[n][i].x]==n)
+            {
+               j[v[n][i].x]=j[n]+(long long)(a-2*o[v[n][i].x])*v[n][i].y;
+            }
+        }
+        for(int i=1;i<=a;i++)
+        {
+            printf("%lld\n",j[i]);
+            v[i].erase(v[i].begin(),v[i].end());
+        }
+        memset(b,0,sizeof(b));
+        memset(j,0,sizeof(j));
+        memset(o,0,sizeof(o));
+    }
+}
