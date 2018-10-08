@@ -1,0 +1,98 @@
+/*
+http://codeforces.com/blog/entry/62238
+
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v;
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+int o[1111][1111];
+int l[2];
+int j[1];
+int e;
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long x,mod=1000000007,mod2=1000000009,mod3=2017;
+long long z,y;
+double pi=3.14159265;
+P u[1];
+stack<int> s;
+//set<int> s[222][22];
+queue<int> q,q1;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+//list<int> l;
+
+//string r;
+char r[1222][1111];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.z<b.z;
+}
+
+int main()
+{
+    scanf("%d",&a);
+    for(int t=1;t<=a;t++)
+        q.push(t);
+    i=1;
+
+
+    for(;q.size()>3;)
+    {
+        for(int n=q.size(),t=1;t<=n;t++)
+        {
+            if(q.front()%(i*2))
+            {
+                printf("%d ",i);
+                q.pop();
+            }
+            else
+            {
+                q.push(q.front());
+                q.pop();
+            }
+        }
+        i*=2;
+    }
+
+
+
+    if(q.size()<=3)
+    {
+        a=q.size();
+        if(a==1) printf("%d",q.front());
+        if(a==2) printf("%d %d",q.front(),q.front()*2);
+        if(a==3) printf("%d %d %d",q.front(),q.front(),q.front()*3);
+        return 0;
+    }
+    i=1;
+    for(;a;a/=2,i*=2)
+    {
+        for(int t=1;t<=a-a/2;t++)
+            printf("%d ",i);
+    }
+}
