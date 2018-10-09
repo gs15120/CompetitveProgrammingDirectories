@@ -1,0 +1,149 @@
+/*
+http://codeforces.com/blog/entry/62287
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    long long x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v[3];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+int o[1111];
+int l[1111];
+int j[1];
+long long e;
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[11];
+stack<int> s;
+//set<int> s[222][22];
+queue<int> q,q1;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<long long,int> p;
+//list<int> l;
+
+//string r;
+char r[1];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.z<b.z;
+}
+
+int g(vector<int> v,char i)
+{
+    if(i=='?'&&v.size()==0) return 0;
+    printf("%c %d\n",i,v.size());
+    for(int t=0;t<v.size();t++)
+        printf("%d ",v[t]);
+    puts("");
+    fflush(stdout);
+    if(i!='?') return 0;
+    int d;
+    scanf("%d",&d);
+    return d;
+}
+
+int f(int n,vector<int> v)
+{
+    int k=g(v,'?');
+    v.push_back(n);
+    return g(v,'?')-k;
+}
+
+int main()
+{
+    scanf("%d",&a);
+    memset(o,-1,sizeof(o));
+    o[1]=1;
+    q.push(1);
+    for(int t=1;t<=a;q.pop(),t++)
+    {
+        int n=q.front();
+        vector<int> v;
+        for(int t=1;t<=a;t++)
+            if(o[t]<0)
+                v.push_back(t);
+        int m=f(n,v);
+        for(int t=1;t<=m;t++)
+        {
+            int c=0,d=(int)v.size()-1;
+            for(;c<d;)
+            {
+                int h=(c+d)/2;
+                if(f(n,vector<int> (v.begin(),v.begin()+h+1))>=t)
+                    d=h;
+                else c=h+1;
+            }
+            q.push(v[c]);
+            l[v[c]]=n;
+            o[v[c]]=1-o[n];
+        }
+
+    }
+    for(int t=1;t<=a;t++)
+    {
+        v[o[t]].push_back(t);
+    }
+    for(int i=0;i<2;i++)
+    if(g(v[i],'?'))
+    {
+        int d=g(v[i],'?');
+        int n=0,m=(int)v[i].size()-1;
+        for(;n<m;)
+        {
+            int h=(n+m)/2;
+            if(g(vector<int> (v[i].begin(),v[i].begin()+h+1),'?')<d) n=h+1;
+            else m=h;
+        }
+        int c=v[i][m];
+        n=0,m--;
+        for(;n<m;)
+        {
+            int h=(n+m)/2;
+            if(f(c,vector<int> (v[i].begin(),v[i].begin()+h+1)))
+                m=h;
+            else n=h+1;
+        }
+        n=v[i][n];
+        m=c;
+        for(;n!=m;)
+        {
+            q.push(n);
+            s.push(m);
+            n=l[n];
+            m=l[m];
+        }
+        q.push(n);
+        printf("N %d\n",q.size()+s.size());
+        for(;q.size();q.pop())
+            printf("%d ",q.front());
+        for(;s.size();s.pop())
+            printf("%d ",s.top());
+        fflush(stdout);
+        return 0;
+    }
+    g(v[0],'Y');
+}
