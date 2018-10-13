@@ -1,3 +1,82 @@
 /*
-
+http://codeforces.com/blog/entry/62411
 */
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v[5];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+long long o[222111];
+int l[221111];
+long long j[222111];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[511];
+stack<int> s;
+//set<int> s[222][22];
+queue<int> q,q1;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<long long,int> p;
+//list<int> l;
+
+//string r;
+char r[1];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.z<b.z;
+}
+
+
+long long f(long long c,long long k)
+{
+    long long x=1;
+    for(;k;k/=2)
+    {
+        if(k%2) x*=c,x%=mod;
+        c*=c,c%=mod;
+    }
+    return x;
+}
+
+int main()
+{
+    scanf("%d %d %d",&a,&b,&c);
+    j[0]=1;
+    for(int t=1;t<=b;t++)
+    {
+
+        scanf("%d",&l[t]);
+        j[t]=(j[t-1]*f(c,l[t]*2-l[t-1]*2)%mod+j[t-1]*f(c,l[t]-l[t-1])%mod)%mod*f(2,mod-2)%mod;
+    }
+    x=f(c,a-l[b]*2)*j[b]%mod;
+    printf("%lld",x);
+
+}
