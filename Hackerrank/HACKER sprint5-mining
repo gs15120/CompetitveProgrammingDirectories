@@ -1,0 +1,121 @@
+/*
+https://www.hackerrank.com/contests/world-codesprint-5/challenges/mining/editorial
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+   /* bool operator<(const P &a)const{
+              return z>a.z;
+    }*/
+
+};
+
+vector<int> v[1];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+long long o[5222][5555];
+long long l[5555];
+long long j[5551][5555];
+long long e[5555];
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[5221];
+stack<int> s;
+//set<int> s[222][22];
+queue<P> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<long long,int> p;
+//list<int> l;
+
+//string r,r1;
+char r[2111];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.z<b.z;
+}
+
+
+void f(int i,int n,int m,int c,int d)
+{
+    if(n>m) return;
+    int h=(n+m)/2,p=h;
+    if(i>h) return;
+    o[i][h]=e[h]-e[i-1]-(l[i-1])*(u[h].x-u[i-1].x);//(l[h])*(u[h].x)-e[h]+e[i]-(u[i].x)*(l[h]);//
+    for(int j=max(i,c);j<=min(h,d);j++)
+    {
+        long long x=e[j]-e[i-1]-(l[i-1])*(u[j].x-u[i-1].x);
+         x+=(l[h])*(u[h].x)-e[h]+e[j]-(u[j].x)*(l[h]);
+        if(o[i][h]>x) o[i][h]=x,p=j;
+    }
+    //printf("*****%d %d %d\n",i,h,p);
+    f(i,n,h-1,c,p);
+    f(i,h+1,m,p,d);
+}
+
+void g(int i,int n,int m,int c,int d)
+{
+    if(n>m) return;
+    int h=(n+m)/2,p=max(c,i-1);
+    j[i][h]=96654321987654321;
+
+    if(h==1||i>=h) j[i][h]=0;
+    else
+    for(int t=max(c,i-1);t<=min(h-1,d);t++)
+    {
+        if(j[i][h]>j[i-1][t]+o[t+1][h]) p=t,j[i][h]=j[i-1][t]+o[t+1][h];
+    }
+
+
+    g(i,n,h-1,c,p);
+    g(i,h+1,m,p,d);
+
+}
+
+int main()
+{
+    scanf("%d %d",&a,&b);
+    for(int t=1;t<=a;t++)
+    {
+        scanf("%d %d",&u[t].x,&u[t].y);
+        l[t]=l[t-1]+u[t].y;
+        e[t]=e[t-1]+l[t-1]*(u[t].x-u[t-1].x);
+    }
+
+    for(int t=1;t<=a;t++)
+    {
+        f(t,t,a,t,a);
+        //for(int w=1;w<=a;w++)
+       //     printf("%lld ",o[t][w]);
+       // puts("");
+    }
+    for(int t=1;t<=a;t++)
+        j[1][t]=o[1][t];
+    for(int t=2;t<=b;t++)
+    {
+        g(t,0,a,0,a);
+        //for(int w=1;w<=a;w++)
+       //     printf("%lld ",j[t][w]);
+        //puts("");
+    }
+
+    printf("%lld",j[b][a]);
+}
