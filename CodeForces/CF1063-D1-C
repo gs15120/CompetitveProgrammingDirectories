@@ -1,3 +1,108 @@
 /*
-
+https://codeforces.com/blog/entry/62455
 */
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+   /* bool operator<(const P &a)const{
+              return z>a.z;
+    }*/
+
+};
+
+vector<int> v[1];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+int x1,y11;
+int o[2222];
+int l[1];
+int j[1];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[2221][2222];
+stack<int> s;
+//set<int> s[222][22];
+queue<P> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<long long,int> p;
+//list<int> l;
+
+//string r,r1;
+char r[2111];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.z<b.z;
+}
+
+int f(int n,int m)
+{
+    //if(i==2||i==2) return 0;
+    //return 1;
+    printf("%d %d\n",n,m);
+    fflush(stdout);
+    scanf("%s",r);
+    if(r[0]=='b') return 0;
+    return 1;
+}
+
+int main()
+{
+    scanf("%d",&a);
+    n=500000000,m=0;
+    for(int t=1;t<=a;t++)
+    {
+        i++;
+        c=f(n,m);
+        d=c;
+        o[c]++;
+        if(o[1]&&o[0])
+        {
+            n--;
+
+            break;
+        }
+        n+=2;
+    }
+    if(i==a)
+    {
+        printf("%d %d %d %d\n",n,m,n,m+1);
+        fflush(stdout);
+        return 0;
+    }
+    x1=n,y11=m;
+    n++;
+    //i++;
+    int z=200000000;
+    m=500000000;
+    //c=f(n,m);
+    for(;i<a;)
+    {
+        i++;
+        c=f(n,m);
+        if(c==d) m+=z;
+        else m-=z;
+        z/=2;
+    }
+    printf("%d %d %d %d\n",x1,y11,n,m);
+    fflush(stdout);
+}
