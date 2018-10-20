@@ -11,8 +11,9 @@ http://codeforces.com/blog/entry/62563
 And, (1,1) will be 00000... and (n,m) will be 1111... and others will be empty.
 
 3. make (1,1) (the string of final goal at (1,1))00000... and (n,m) (the string of final goal at (n,m)) 1111....
-    by taking out 1 at (n,m) and 0 at (1,1)
-4. do it at all (i,j) except (1,1) and (n,m)
+    by taking out 1 at (n,m) and 0 at (1,1).
+    If the starting point and the end point of operation is same, do with the empty cell first and get it back.
+4. Do it at all (i,j) except (1,1) and (n,m).
 
 
 */
