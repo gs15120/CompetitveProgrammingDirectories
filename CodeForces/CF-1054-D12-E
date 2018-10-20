@@ -1,0 +1,183 @@
+/*
+The ed is rusian. I cannot read it:(
+http://codeforces.com/blog/entry/62563
+1. Send every chips at (1,1) and (n,m) to (n,1)
+2. Send every chips to (1,1)or (n,m)
+    if chip is 0:  if j!=1 (i,j) -> (i,1) -> (1,1) 
+                   else    (i,j) -> (1,1);
+    else:          if i!=n (i,j) -> (n,j) -> (n,m)
+                   else     (i,j) -> (n,m);
+--------------------------------takes at most 2s times until here.
+And, (1,1) will be 00000... and (n,m) will be 1111... and others will be empty.
+
+3. make (1,1) (the string of final goal at (1,1))00000... and (n,m) (the string of final goal at (n,m)) 1111....
+    by taking out 1 at (n,m) and 0 at (1,1)
+4. do it at all (i,j) except (1,1) and (n,m)
+
+
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z,p;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v[335][333];
+vector<P> v1;
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+int o[331][3];
+int l[1111];
+int j[1111];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[1];
+stack<int> s[333][333];
+//set<int> s[222][22];
+queue<int> q[333][333];
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+//list<int> l;
+
+string r;
+//char r[11111];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.x<b.x;
+}
+
+
+void f(int x1,int y1,int x2,int y2)
+{
+    q[x2][y2].push(q[x1][y1].front());
+    q[x1][y1].pop();
+    v1.push_back({x1,y1,x2,y2});
+}
+
+int main()
+{
+    scanf("%d %d",&a,&b);
+    for(int t=1;t<=a;t++)
+        for(int w=1;w<=b;w++)
+    {
+        cin>>r;
+        for(int h=(int)r.size()-1;h>=0;h--)
+            q[t][w].push(r[h]);
+    }
+    for(int t=1;t<=a;t++)
+        for(int w=1;w<=b;w++)
+    {
+        cin>>r;
+        for(int h=0;h<r.size();h++)
+            v[t][w].push_back(r[h]);
+    }
+    for(;q[1][1].size();) f(1,1,a,1);
+    for(;q[a][b].size();) f(a,b,a,1);
+    for(int t=1;t<=a;t++)
+        for(int w=1;w<=b;w++)
+        if((t!=1||w!=1)&&(t!=a||w!=b))
+        for(;q[t][w].size();)
+    if(q[t][w].front()=='1')
+    {
+        if(t==a) f(t,w,a,b);
+        else f(t,w,a,w);
+    }
+    else
+    {
+        if(w==1) f(t,w,1,1);
+        else f(t,w,t,1);
+    }
+
+    for(int t=2;t<=a;t++)
+        for(;q[t][1].size();)
+        f(t,1,1,1);
+
+    for(int h=(int)v[1][1].size()-1;h>=0;h--)
+        if(v[1][1][h]=='1')
+        {
+            f(a,b,1,b);
+            f(1,b,1,1);
+        }
+        else
+        {
+            f(1,1,a,1);
+            f(a,1,1,1);
+        }
+    for(int h=(int)v[a][b].size()-1;h>=0;h--)
+        if(v[a][b][h]=='1')
+        {
+            f(a,b,1,b);
+            f(1,b,a,b);
+        }
+        else
+        {
+            f(1,1,a,1);
+            f(a,1,a,b);
+        }
+
+   /* for(int t=1;t<=a;puts(""),t++)
+        for(int w=1;w<=b;w++)
+    {
+        for(;q[t][w].size();q[t][w].pop())
+            printf("%c",q[t][w].front());
+        printf(" ");
+    }*/
+
+
+
+    for(int t=1;t<=a;t++)
+        for(int w=b;w>=1;w--)
+        if((t!=1||w!=1)&&(t!=a||w!=b))
+        for(int h=(int)v[t][w].size()-1;h>=0;h--)
+        if(v[t][w][h]=='1')
+        {
+            if(w!=b)
+            f(a,b,a,w);
+            if(t!=a)
+            f(a,w,t,w);
+        }
+        else
+        {
+            if(t!=1)
+                f(1,1,t,1);
+            if(w!=1)
+            f(t,1,t,w);
+        }
+    
+
+     /*for(int t=1;t<=a;puts(""),t++)
+        for(int w=1;w<=b;w++)
+    {
+        for(;q[t][w].size();q[t][w].pop())
+            printf("%c",q[t][w].front());
+        printf(" ");
+    }*/
+
+
+    printf("%d\n",v1.size());
+    for(int h=0;h<v1.size();h++)
+        printf("%d %d %d %d\n",v1[h].x,v1[h].y,v1[h].z,v1[h].p);
+}
