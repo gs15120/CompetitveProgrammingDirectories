@@ -1,0 +1,92 @@
+/*
+Simple convex-hull trick problem.
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    long long x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<P> v;
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+long long o[100010];
+long long l[100010];
+long long j[100010];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[1];
+stack<int> s;
+//set<int> s[222][22];
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+//list<int> l;
+
+
+char r[1];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.x<b.x;
+}
+
+double X(P a,P b)
+{
+    return (double)(b.y-a.y)/(a.x-b.x);
+}
+
+void f(long long x,long long y)
+{
+    for(;v.size()>1&&X(v[v.size()-1],v[v.size()-2])>X(v[v.size()-1],{x,y});v.pop_back());
+    v.push_back({x,y});
+}
+
+long long g(long long x)
+{
+
+    for(;d+1<v.size()&&X(v[d],v[d+1])<=x;d++);
+    return x*v[d].x+v[d].y;
+}
+
+int main()
+{
+    scanf("%d",&a);
+    for(int t=1;t<=a;t++)
+        scanf("%I64d",&o[t]);
+    for(int t=1;t<=a;t++)
+        scanf("%I64d",&l[t]);
+    v.push_back({l[1],0});
+    for(int t=2;t<=a;t++)
+    {
+        j[t]=g(o[t]);
+        f(l[t],j[t]);
+        //
+    }
+printf("%I64d",j[a]);
+}
+
