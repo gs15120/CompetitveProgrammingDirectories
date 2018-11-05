@@ -1,6 +1,6 @@
 /*
 A simple knuth op code.
-
+I have no idea to explane more.
 */
 #include <bits/stdc++.h>
 using namespace std;
