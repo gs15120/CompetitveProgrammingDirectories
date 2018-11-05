@@ -1,0 +1,98 @@
+/*
+Since n<=250, it canbe solved by simple n^3 dp.
+But dp[i][j]=min(dp[i][k-1]+dp[k+1][j]+C[i][j])
+,C[a][c]+C[b][d]==C[a][d]+C[b][d], and C[b][d]<C[a][d]
+we can use knuth op.
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v[3333];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+int o[311];
+int l[500][313];
+int j[300][333];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+//P u[222221];
+stack<int> s;
+//set<int> s[222][22];
+//priority_queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+//list<int> l;
+
+//string r1,r2;
+//char r[333][333];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.x<b.x;
+}
+
+int f(int n,int m)
+{
+    if(l[n][m]>=0) return l[n][m];
+    if(n>=m) return 0;
+    int x=987654321;
+    for(int t=n;t<=m;t++)
+    {
+        x=min(x,o[m]-o[n-1]-o[t]+o[t-1]+f(n,t-1)+f(t+1,m));
+    }
+    return l[n][m]=x;
+}
+
+int main()
+{
+    for(;scanf("%d",&a)!=EOF;)
+    {
+        for(int t=1;t<=a;o[t]+=o[t-1],t++)
+            scanf("%d",&o[t]);
+        memset(l,0,sizeof(l));
+        for(int t=1;t<=a;j[t][t]=t,t++);
+        for(int i=1;i<a;i++)
+        for(int t=1;t+i<=a;t++)
+        {
+            int p=t,x=987654321;
+            for(int w=min(j[t][t+i-1],t);w<=max(j[t+1][t+i],i+t);w++)
+            if(x>l[t][w-1]+l[w+1][t+i]+o[t+i]-o[t-1]-o[w]+o[w-1])
+            {
+                x=l[t][w-1]+l[w+1][t+i]+o[t+i]-o[t-1]-o[w]+o[w-1];
+                p=w;
+            }
+            l[t][t+i]=x;
+            j[t][t+i]=p;
+        }
+        printf("%d\n",l[1][a]);
+    }
+}
+
+
