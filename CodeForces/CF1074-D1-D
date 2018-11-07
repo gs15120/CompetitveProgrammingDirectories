@@ -1,4 +1,6 @@
 /*
+
+http://codeforces.com/blog/entry/62985
 Let 0,...,2^30 as nodes.
 Use union-find with map to know the root and the lenth to the root from the node.
 
