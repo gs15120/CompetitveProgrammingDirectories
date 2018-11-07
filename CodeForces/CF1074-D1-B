@@ -1,0 +1,118 @@
+/*
+http://codeforces.com/blog/entry/62985
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v[1111];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+int o[1111];
+int l[1111];
+int j[1111];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+//P u[222221];
+stack<int> s;
+//set<int> s[222][22];
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+//list<int> l;
+
+//string r1,r2;
+//char r[333][333];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.x<b.x;
+}
+
+int main()
+{
+    scanf("%d",&e);
+    for(;e;e--)
+    {
+        scanf("%d",&a);
+        for(int t=1;t<a;t++)
+        {
+            scanf("%d %d",&n,&m);
+            v[n].push_back(m);
+            v[m].push_back(n);
+        }
+        scanf("%d",&b);
+        for(int t=1;t<=b;l[n]=1,t++)
+            scanf("%d",&n);
+        scanf("%d",&c);
+        for(int t=1;t<=c;t++)
+        {
+            scanf("%d",&n);
+            j[n]=1;
+        }
+        printf("B %d\n",n);
+        fflush(stdout);
+        scanf("%d",&n);
+        if(l[n])
+        {
+            printf("C %d\n",n);
+            goto qwe;
+        }
+        o[n]=1;
+        q.push(n);
+        for(;q.size();q.pop())
+        for(int h=0;h<v[q.front()].size();h++)
+        if(o[v[q.front()][h]]==0)
+        {
+            o[v[q.front()][h]]=o[q.front()]+1;
+            q.push(v[q.front()][h]);
+        }
+        m=987654321;
+        for(int t=1;t<=a;t++)
+            if(l[t]&&o[t]&&o[t]<m) m=o[t],n=t;
+        printf("A %d\n",n);
+        fflush(stdout);
+        scanf("%d",&m);
+        if(j[m])
+        {
+            printf("C %d\n",n);
+        }
+        else puts("C -1");
+        qwe:;
+        fflush(stdout);
+        
+        memset(o,0,sizeof(o));
+        memset(l,0,sizeof(l));
+        memset(j,0,sizeof(j));
+        for(int t=1;t<=a;t++)
+            for(;v[t].size();)
+            v[t].pop_back();
+    }
+}
+
