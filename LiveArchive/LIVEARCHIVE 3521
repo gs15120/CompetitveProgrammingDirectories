@@ -1,0 +1,106 @@
+/*
+http://codeforces.com/blog/entry/22712
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v[1111];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+int o[1111];
+int l[1111];
+int j[1111];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[322221];
+stack<int> s;
+//set<int> s[222][22];
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p,p1;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+//string r1,r2;
+//char r[333][333];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.x<b.x;
+}
+
+long long f(long long n)
+{
+    long long m=n+1;
+    if(m%2) n/=2;
+    else m/=2;
+    return n*m;
+}
+
+int main()
+{
+    long long a,b,n;
+    for(;scanf("%lld %lld",&a,&b)!=EOF;x=0)
+    {
+    if(a>b)
+        x=b*((a-b)),n=b;
+    else n=a;
+    for(long long i=2;b/i>1000000;i++)
+    if(n>b/i)
+    {
+        long long p=min(b/(i-1),n);
+        x+=b*((p-b/i))-((f(p)-f(b/i)))*(i-1);
+
+        n=b/i;
+    }
+    for(;n;n--)
+        x+=b%n;
+    printf("%lld\n",x);
+    }
+}
+
+
+
