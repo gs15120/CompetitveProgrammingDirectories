@@ -1,0 +1,127 @@
+/*
+Let 0,...,2^30 as nodes.
+Use union-find with map to know the root and the lenth to the root from the node.
+
+If query1
+{
+     if l,r+1 is in the same tree already, do nothing
+     else, contect l,r+1 by union-find
+}
+If query2
+{
+     if l,r+1 connected already, printf (the lenth of [l,root])^(the lenth of[r+1,root]) 
+     else printf -1
+}
+
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v[1111];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+int o[1111];
+int l[1111];
+int j[1111];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[322221];
+stack<int> s;
+//set<int> s[222][22];
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+map<int,int> p,p1;
+//list<int> l;
+
+//string r1,r2;
+//char r[333][333];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.x<b.x;
+}
+
+P f(int n)
+{
+    int e=p[n];
+    if(e==n) return {n,0};
+    if(e)
+    {
+        P m=f(e);
+        return {p[n]=m.x,p1[n]=(p1[n]^m.y)};
+    }
+    return {p[n]=n,0};
+}
+
+int main()
+{
+    i=0;
+    scanf("%d",&a);
+    for(int t=1;t<=a;t++)
+    {
+        scanf("%d %d %d",&c,&n,&m);
+        if(c==2)
+        {
+            n^=i,m^=i;
+            n++,m++;
+            if(n>m) swap(n,m);
+            if(f(n).x==f(m+1).x)
+            {
+                d=(f(n).y^f(m+1).y);
+                i=d;
+                printf("%d\n",d);
+            }
+            else
+            {
+                i=1;
+                puts("-1");
+            }
+        }
+        else
+        {
+            scanf("%d",&k);
+            n^=i,m^=i,k^=i;
+            if(n>m) swap(n,m);
+            n++,m++;
+            if(f(n).x!=f(m+1).x)
+            {
+
+
+                P c=f(n);
+                P d=f(m+1);
+                if(d.x>c.x)
+                    p[c.x]=d.x,p1[c.x]=(k^c.y^d.y);
+                else p[d.x]=c.x,p1[d.x]=(k^c.y^d.y);
+            }
+        }
+    }
+}
+
+
