@@ -1,0 +1,96 @@
+/*
+
+http://codeforces.com/blog/entry/62985
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v;
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+int o[111111];
+int l[1];
+int j[1];
+int e[1];
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+//P u[222221];
+stack<int> s;
+//set<int> s[222][22];
+//priority_queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+//list<int> l;
+
+//string r1,r2;
+//char r[333][333];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.x<b.x;
+}
+
+int main()
+{
+    scanf("%d %d",&a,&b);
+    for(int t=1;t<=a;t++)
+        scanf("%d",&o[t]);
+    for(int t=1;t<=b;t++)
+    {
+        scanf("%d %d %d",&c,&d,&n);
+        if(c==1)
+            v.push_back(d);
+    }
+    a++;
+    o[a]=1000000000;
+    //v.push_back(1087654321);
+    if(v.size()==0)
+    {
+        printf("0");
+        return 0;
+    }
+    sort(o+1,o+a+1);
+    k=987654321;
+    sort(v.begin(),v.end());
+    for(int t=1;t<=a;t++)
+    if(o[t]<=v[0])
+        k=min(k,t-1+(int)v.size());
+    else
+    {
+        int n=0,m=v.size()-1;
+        for(;n<m;)
+        {
+            int h=(n+m)/2+1;
+            if(v[h]<o[t]) n=h;
+            else m=h-1;
+        }
+        k=min(k,t-1+(int)v.size()-(n+1));
+    }
+    printf("%d",k);
+}
