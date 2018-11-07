@@ -1,0 +1,124 @@
+/*
+If i>3, we can chose the biggest x,y and smallest x,y. So, f(i)==f(n)==max(f(j), 1<=j<=n).
+If i==3 the 3 points will be like
+
+1. One is low, left then the others. The other 2 will be at the most high, and the most right.
+2. One is high, left then the others. The other 2 will be at the most low, and the most right.
+3. One is low, right then the others. The other 2 will be at the most high, and the most left.
+4. One is high, right the others. The other 2 will be at the most low, and the most left.
+It can be checked at O(n).
+
+
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v[1111];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+int o[1111];
+int l[1111];
+int j[1111];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[322221];
+stack<int> s;
+//set<int> s[222][22];
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+//list<int> l;
+
+//string r1,r2;
+//char r[333][333];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    return a.x<b.x;
+}
+
+int main()
+{
+    scanf("%d",&a);
+    for(int t=1;t<=a;t++)
+        scanf("%d %d",&u[t].x,&u[t].y);
+    u[a+1]=u[1];
+    for(int t=1;t<=a;t++)
+        x+=max(u[t].x-u[t+1].x,u[t+1].x-u[t].x)+max(u[t].y-u[t+1].y,u[t+1].y-u[t].y);
+    y=z=-987654321987654321;
+    m=n=1087654321;
+    for(int t=1;t<=a;t++)
+    {
+        if(z<u[t].x+u[t].y)
+            z=u[t].x+u[t].y;
+        n=min(n,u[t].x);
+        m=min(m,u[t].y);
+    }
+    y=max(y,z*2-(n+m)*2);
+
+    z=-987654321987654321;
+    n=-1087654321;
+    m=-n;
+    for(int t=1;t<=a;t++)
+    {
+        if(z<-u[t].x+u[t].y)
+            z=-u[t].x+u[t].y;
+        n=max(n,u[t].x);
+        m=min(m,u[t].y);
+    }
+    y=max(y,z*2+(n-m)*2);
+
+    z=-987654321987654321;
+    m=-1087654321;
+    n=-m;
+    for(int t=1;t<=a;t++)
+    {
+        if(z<u[t].x-u[t].y)
+            z=u[t].x-u[t].y;
+        n=min(n,u[t].x);
+        m=max(m,u[t].y);
+    }
+    y=max(y,z*2-(n-m)*2);
+
+    z=-987654321987654321;
+    m=n=-1087654321;
+    for(int t=1;t<=a;t++)
+    {
+        if(z<-u[t].x-u[t].y)
+            z=-u[t].x-u[t].y;
+        n=max(n,u[t].x);
+        m=max(m,u[t].y);
+    }
+    y=max(y,z*2+(n+m)*2);
+    printf("%lld ",y);
+    for(int t=4;t<=a;t++)
+        printf("%lld ",x);
+}
+
