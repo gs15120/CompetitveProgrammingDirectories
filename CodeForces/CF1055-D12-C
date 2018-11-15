@@ -1,0 +1,105 @@
+/*
+http://codeforces.com/blog/entry/63099
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v;
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+int o[111111];
+int l[1111];
+int j[1];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[3];
+stack<int> s;
+//set<int> s[222][22];
+//priority_
+queue<int> q;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p,p1;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+//string r;
+//char r[333][333];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}
+
+int f(int n,int m)
+{
+    for(;n;)
+    {
+        int h=m;
+        m=n;
+        n=h%n;
+    }
+    return m;
+}
+
+int main()
+{
+    for(int h=1;h<=2;h++)
+    scanf("%d %d %d",&u[h].x,&u[h].y,&u[h].z);
+    if(u[1].x>u[2].x) swap(u[1],u[2]);
+    a=f(u[1].z,u[2].z);
+    u[3]=u[1];
+    m=(u[2].x-u[1].x)/a*a;
+    n=((u[2].x-u[1].x)/a+1)*a;
+    u[1].x+=m;
+    u[1].y+=m;
+    u[3].x+=n;
+    u[3].y+=n;
+    for(int h=1;h<3;h++)
+    c=max(min(u[h+1].y,u[h].y)-max(u[h+1].x,u[h].x)+1,c);
+    printf("%d",c);
+}
