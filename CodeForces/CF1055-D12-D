@@ -1,0 +1,184 @@
+/*
+http://codeforces.com/blog/entry/63099
+*/
+
+By gs15120, contest: Mail.Ru Cup 2018 Round 2, problem: (D) Refactoring, Accepted, #
+ #include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return z>a.z;
+    }
+
+};
+
+vector<int> v1[3333],v2[3333];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+char o[3111][3333];
+char l[3111][3333];
+int j[3331];
+int e[3333];
+int op[3333];
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[3];
+stack<int> s;
+//set<int> s[222][22];
+//priority_
+vector<int> q1,q2;
+
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p,p1;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+//string r;
+int r[3333][3];
+//deque<int> de;
+//srand((int)time(NULL));
+bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}
+
+
+
+int main()
+{
+    scanf("%d",&a);
+    for(int t=1;t<=a;t++)
+        scanf("%s",o[t]+1);
+    for(int t=1;t<=a;t++)
+        scanf("%s",l[t]+1);
+    for(int t=1;t<=a;t++)
+    {
+        int i=1;
+        for(;o[t][i]&&o[t][i]==l[t][i];i++);
+        if(!o[t][i]) e[t]=1;
+        else r[t][0]=r[t][1]=i,r[t][1]--,n=t;
+    }
+
+    for(;;)
+    {
+        if(o[n][r[n][1]+1]==0) break;
+        int c=o[n][r[n][1]+1],d=l[n][r[n][1]+1];
+        int t=1;
+        for(;t<=a;t++)
+        if(!e[t])
+        if(o[t][r[t][1]+1]!=c||l[t][r[t][1]+1]!=d) break;
+
+        if(t<=a) break;
+
+        for(int t=1;t<=a;t++)
+        if(!e[t]) r[t][1]++;
+    }
+
+
+
+    for(;;)
+    {
+        if(o[n][r[n][0]-1]==0) break;
+        int c=o[n][r[n][0]-1],d=l[n][r[n][0]-1];
+        int t=1;
+        for(;t<=a;t++)
+        if(!e[t])
+        if(o[t][r[t][0]-1]!=c||l[t][r[t][0]-1]!=d) break;
+
+        if(t<=a) break;
+
+        for(int t=1;t<=a;t++)
+        if(!e[t]) r[t][0]--;
+    }
+
+    for(int t=1;t<=a;t++)
+    if(!e[t])
+    {
+        for(int i=r[t][1]+1;o[t][i];i++)
+            if(o[t][i]!=l[t][i])
+        {
+            puts("NO");
+            return 0;
+        }
+    }
+    //printf("%d %d",r[n][0],r[n][1]);
+    q1.push_back(0);
+    q2.push_back(0);
+
+
+    for(int t=r[n][0];t<=r[n][1];t++)
+    {
+        q1.push_back(o[n][t]);
+        q2.push_back(l[n][t]);
+    }
+    for(int i=2;i<q1.size();i++)
+    {
+        //puts("@");
+        for(;k&&q1[k+1]!=q1[i];) k=j[k];
+        if(q1[k+1]==q1[i]) k++;
+        j[i]=k;
+    }
+    k=0;
+    for(int h=1;h<=a;k=0,h++)
+
+    for(int i=1;'a'<=o[h][i]&&o[h][i]<='z';i++)
+    {
+        for(;k&&q1[k+1]!=o[h][i];) k=j[k];
+        if(q1[k+1]==o[h][i]) k++;
+        if(k==(int)q1.size()-1)
+        if(e[h]==1)
+        {
+            puts("NO");
+            return 0;
+        }
+        else if(r[h][1]!=i)
+        {
+            //printf("%d %d",r[h][1],i);
+            puts("NO");
+            return 0;
+        }
+        else break;
+    }
+
+    puts("YES");
+    for(int h=1;h<q1.size();h++)
+        printf("%c",q1[h]);
+    puts("");
+    for(int h=1;h<q1.size();h++)
+        printf("%c",q2[h]);
+}
