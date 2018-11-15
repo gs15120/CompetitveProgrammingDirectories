@@ -1,0 +1,135 @@
+/*
+http://codeforces.com/blog/entry/63151
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return y>a.y;
+    }
+
+};
+
+struct S
+{
+    int x;
+    long long y;
+
+    bool operator<(const S &a)const{
+              return y>a.y;
+    }
+
+};
+
+vector<P> v[333333];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+long long o[322221];
+int l[333331];
+int j[333331];
+int e[333333];
+int op[333333];
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[3];
+stack<int> s;
+//set<int> s[222][22];
+priority_queue<S> q;
+queue<int> q1;
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p,p1;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+//string r;
+//char r[3333][3];
+//deque<int> de;
+//srand((int)time(NULL));
+/*bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}*/
+
+bool as(int a,int b)
+{
+
+    return l[a]<l[b];
+}
+
+int main()
+{
+    scanf("%d %d %d",&a,&b,&c);
+    for(int t=1;t<=b;t++)
+    {
+        scanf("%d %d %d",&n,&m,&i);
+        //u[t]={n,m,i};
+        v[n].push_back({m,i,t});
+        v[m].push_back({n,i,t});
+    }
+    for(int t=1;t<=300000;t++)
+        o[t]=987654321987654321;
+    q.push({1,(long long)0});
+    o[1]=0;
+    for(;q.size();)
+    if(o[q.top().x]==q.top().y)
+    {
+        S n=q.top();
+        q.pop();
+
+        for(int h=0;h<v[n.x].size();h++)
+        if(o[v[n.x][h].x]>o[n.x]+v[n.x][h].y||(o[v[n.x][h].x]==o[n.x]+v[n.x][h].y&&l[v[n.x][h].x]>l[n.x]+1))
+        {
+            l[v[n.x][h].x]=l[n.x]+1;
+            //printf("@@%d\n",v[n.x][h].z);
+            e[v[n.x][h].x]=v[n.x][h].z;
+            o[v[n.x][h].x]=o[n.x]+v[n.x][h].y;
+            q.push({v[n.x][h].x,o[v[n.x][h].x]});
+        }
+    }
+    else q.pop();
+    for(int t=1;t<=a;j[t]=t,t++);
+    //    printf("%lld ",o[t]);
+    sort(j+1,j+a+1,as);
+    for(int t=2;t<=a&&q1.size()<c;t++)
+        q1.push(e[j[t]]);
+    printf("%d\n",q1.size());
+    for(;q1.size();q1.pop())
+        printf("%d ",q1.front());
+}
+
+
