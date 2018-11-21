@@ -1,0 +1,140 @@
+/*
+from the coment at
+http://codeforces.com/blog/entry/46450
+
+
+suppose you have a directed graph (there is an edge between every i and j ) and you have to find a path from S to E by visiting each vertex once 
+obviously each vertex except S and E should be linked with two different vertices
+dp[i][j][k] represents minimum cost to reach the destination such that among the last i elements, j of them want to be linked with another vertex and k of them have an outgoing edge which is not connected to anything yet. 
+now we will consider each vertex separately ,we have three cases 
+a vertex with just outgoing edge (if that vertices is S)
+dp[i][j][k] = min(dp[i+1][j-1][k] + x[i] + c[i], dp[i+1][j][k+1] -x[i] + d[i])
+a vertex with just incoming edge (if that vertices is E)
+dp[i][j][k] = min(dp[i+1][j][k-1] + x[i] + a[i], dp[i+1][j+1][k] -x[i] + b[i])
+a vertex with incoming edge and outgoing edge 
+dp[i][j][k] = min(
+dp[i+1][j-1][k-1] + 2*x[i]+a[i]+c[i] (an edge form vertex x to vertex i (x<i) and an edge from vertex i to vertex y (y<i))
+dp[i+1][j][k] + a[i]+d[i] (an edge form vertex x to vertex i (x<i) and an edge from vertex i to vertex y (y>i))
+dp[i+1][j][k] + b[i]+c[i] (an edge form vertex x to vertex i (x>i) and an edge from vertex i to vertex y (y<i))
+dp[i+1][j+1][k+1] -2*x[i]+b[i]+d[i] (an edge form vertex x to vertex i (x>i) and an edge from vertex i to vertex y (y>i))
+)
+it can be proved that for any (i,j) k will be the same , so we can only memorize dp[i][j] and the complexity will be o(n^2)
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y,z;
+
+    bool operator<(const P &a)const{
+              return y>a.y;
+    }
+};
+
+vector<int> v[11];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+int o[9][5555];
+long long l[5011][5011];
+//int j[5111][5111];
+int e;
+
+
+int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+//int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[1];
+stack<int> s;
+//set<int> s[222][22];
+//priority_queue<S> q;
+queue<int> q;
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p,p1;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+//string r;
+//char r[3333][3];
+//deque<int> de;
+//srand((int)time(NULL));
+/*bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}*/
+
+bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y>b.y;
+}
+
+long long f(int n,int j,int k)
+{
+    if(n>a&&j==0&&k==0) return 0;
+    if(n>a) return 987654321987654321;
+    if(j==0&&k==0&&n>1) return 987654321987654321;
+    if(l[n][j]) return l[n][j];
+    long long x=987654321987654321;
+    if(n==b)
+    {
+        if(k>0)
+            x=f(n+1,j,k-1)+o[0][n]+o[3][n];
+        x=min(x,f(n+1,j+1,k)-o[0][n]+o[4][n]);
+        return l[n][j]=x;
+    }
+    if(n==c)
+    {
+        if(j>0)
+            x=f(n+1,j-1,k)+o[0][n]+o[1][n];
+        x=min(x,f(n+1,j,k+1)-o[0][n]+o[2][n]);
+        return l[n][j]=x;
+    }
+    if(k&&j) x=min(x,f(n+1,j-1,k-1)+2*o[0][n]+o[1][n]+o[3][n]);
+    x=min(x,f(n+1,j+1,k+1)-2*o[0][n]+o[4][n]+o[2][n]);
+    if(k) x=min(x,f(n+1,j,k)+o[2][n]+o[3][n]);
+    if(j) x=min(x,f(n+1,j,k)+o[1][n]+o[4][n]);
+    return l[n][j]=x;
+}
+
+int main()
+{
+    scanf("%d %d %d",&a,&b,&c);
+    for(int h=0;h<5;h++)
+        for(int t=1;t<=a;t++)
+        scanf("%d",&o[h][t]);
+
+
+    printf("%lld",f(1,0,0));
+}
