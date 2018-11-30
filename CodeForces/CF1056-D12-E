@@ -1,0 +1,181 @@
+/*
+https://codeforces.com/blog/entry/63461
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y;
+
+    bool operator<(const P &a)const{
+        if(x!=a.x)
+              return x>a.x;
+        return y>a.y;
+    }
+
+};
+
+vector<P> v[3];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+long long o[1211111];
+int l[121221];
+int j[121221];
+int e[111111];
+
+
+//int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[1];
+stack<int> s;
+//set<int> s[222][22];
+//priority_queue<int,vector<int>,greater<int> > q1;
+queue<P> q;
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p,p1;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+string r,r1;
+//char r[33],r1[1111111];
+//deque<int> de;
+//srand((int)time(NULL));
+/*bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}*/
+
+bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y>b.y;
+}
+
+
+long long op(long long x,long long y)
+{
+    long long z=1;
+    for(;y;x*=x,x%=(mod),y/=2)
+        if(y%2) z*=x,z%=mod;
+    return z;
+}
+
+
+
+long long g(int n,int m)
+{
+    long long x=o[n]*op(2,m*28)%mod;
+    //printf("\n&%d %d %d&\n",m*28,n,m);
+    m+=n;
+    return (o[m]-x+mod)%mod;
+}
+
+int f(P n)
+{
+    return q.front().x*n.x+q.front().y*n.y;
+}
+
+int main()
+{
+    mod*=2;
+    cin>>r;
+    cin>>r1;
+    //[0]=r[2]='1';
+    //r[1]=r[3]='0';
+
+    //for(int i=0;i<1000000;i++)
+     //   r1[i]='a';
+    for(int t=0;t<r.size();t++)
+        if(r[t]=='0')
+        {
+            v[1].push_back({a,b});
+            a++;
+        }
+        else
+        {
+            v[2].push_back({a,b});
+            b++;
+        }
+    n=r1.size();
+    z=1<<28;
+    for(int t=0;t<n;t++)
+    {
+        o[t+1]=(o[t]*z%mod+(((long long)1)<<((long long)(r1[t]-'a'))))%(mod);
+    }
+    for(int i=1;i*a<n;i++)
+    if((n-a*i)%b==0)
+    {
+        //puts("@");
+        q.push({i,(n-a*i)/b});
+    }
+    for(;q.size();q.pop())
+    {
+        //printf("%d %d\n",q.front().x,q.front().y);
+        if(q.front().x==q.front().y)
+        {
+            //for(int h=0;h<q.front().x;h++)
+            //printf("%d %d",f(v[1][0]),f(v[2][0]));
+            //printf("@@@%lld %lld\n",g(f(v[1][0]),q.front().x),g(f(v[2][0]),q.front().x));
+                if(g(f(v[1][0]),q.front().x)!=g(f(v[2][0]),q.front().x)) goto qwe;
+            goto asd;
+        }
+
+        qwe:;
+        //puts("#");
+        for(int i=1;i<v[1].size();i++)
+        //for(int h=0;h<q.front().x;h++)
+        {
+            //printf("$$$%d %d\n",f(v[1][i])+h,f(v[1][0])+h);
+            if(g(f(v[1][i]),q.front().x)!=g(f(v[1][0]),q.front().x)) goto asd;
+        }
+        for(int i=1;i<v[2].size();i++)
+        //for(int h=0;h<q.front().y;h++)
+        {
+            if(g(f(v[2][i]),q.front().y)!=g(f(v[2][0]),q.front().y)) goto asd;
+        }
+
+        k++;
+
+
+        asd:;
+    }
+
+
+
+    printf("%d",k);
+}
+
+
+
