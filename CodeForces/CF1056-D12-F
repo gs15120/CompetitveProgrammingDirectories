@@ -1,0 +1,148 @@
+/*
+https://codeforces.com/blog/entry/63461
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y;
+
+    bool operator<(const P &a)const{
+        if(x!=a.x)
+              return x>a.x;
+        return y>a.y;
+    }
+
+};
+
+vector<P> v[3];
+
+//bitset<4001000> b;
+int a,i,b,n,d,c,m,k;
+
+
+double o[103][103][1011];
+double l[121];
+int j[1];
+int e;
+
+
+//int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[111];
+stack<int> s;
+//set<int> s[222][22];
+//priority_queue<int,vector<int>,greater<int> > q1;
+queue<P> q;
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p,p1;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+string r,r1;
+//char r[33],r1[1111111];
+//deque<int> de;
+//srand((int)time(NULL));
+/*bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}*/
+
+bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y>b.y;
+}
+
+
+double g(double k,double c)
+{
+    double s=(k*c-1)/2/c;
+    if(s>k) return 0;
+    s=max((double)0,s);
+    return (k-s)*(s*c+1);
+}
+
+double f(int n,int m,int d)
+{
+    if(d<=0) return 0;
+    if(m==0||n>a) return 987654321111;
+    if(o[n][m][d]>=0) return o[n][m][d];
+    return o[n][m][d]=min(f(n+1,m-1,d-u[n].y)+(double)u[n].x*l[m],f(n+1,m,d));
+}
+
+int main()
+{
+int sd;
+scanf("%d",&sd);
+l[0]=1;
+for(int i=1;i<=100;i++)
+    l[i]=l[i-1]*10/9;
+for(int qwe=1;qwe<=sd;qwe++)
+{
+    double x,y;
+    memset(o,-1,sizeof(o));
+    scanf("%d %lf %lf",&a,&x,&y);
+    for(int i=1;i<=a;i++)
+        scanf("%d %d",&u[i].x,&u[i].y);
+    sort(u+1,u+a+1,as);
+    for(int i=1;i<=1000;i++)
+    {
+        for(int t=0;t<=a+1;t++)
+        o[a+1][t][i]=o[t][0][i]=987654321111;
+    }
+    for(int n=a;n>0;n--)
+        for(int m=1;m<=a;m++)
+        for(int d=1;d<=1000;d++)
+    {
+        double x;
+        if(d<=u[n].y) x=(double)u[n].x*l[m];
+        else x=(double)u[n].x*l[m]+o[n+1][m-1][d-u[n].y];
+        x=min(x,o[n+1][m][d]);
+        o[n][m][d]=x;
+    }
+
+    k=0;
+
+
+
+    for(int i=1;i<=a;i++)
+    if(y>i*10)
+    {
+        double z=g(y-i*10,x);
+        //printf("@@%lf %lf %lf\n",y-i*10,x,z);
+        for(int j=1;j<=1000;j++)
+        if(z>o[1][i][j]) k=max(k,j);
+    }
+    printf("%d\n",k);
+}
+}
