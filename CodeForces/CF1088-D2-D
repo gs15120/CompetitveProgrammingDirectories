@@ -1,5 +1,23 @@
 /*
-https://codeforces.com/blog/entry/63656
+If a,b is different
+
+There will be a fastest different bit. Let it is the ith bit.
+We can find i like...
+    1. ask a,b after changing the jth bit.
+    2. if a,b's order relation is same as before, j<i.
+    3. else, j==i.
+We can know which one's ith bit is 1 because we already know the order relation of a,b.
+To know the 1~i-1th bit, ask a,(b after changing jth bit). If a>b it will be 1 or it will be 0.
+Now, take away 1~i bits at a,b and do it again two will be same.
+
+
+If a,b are same
+
+Ask a,(b after changing jth bit). If a>b it will be 1 or it will be 0.
+Do it untill we know the holl a,b.
+
+
+
 */
 #include <bits/stdc++.h>
 using namespace std;
