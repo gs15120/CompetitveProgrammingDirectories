@@ -1,0 +1,120 @@
+/*
+https://codeforces.com/blog/entry/63753?locale=en
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    long long x,y,z;
+
+    /*bool operator<(const P &a)const{
+        if(x!=a.x)
+              return x>a.x;
+        return y>a.y;
+    }*/
+
+};
+
+struct S
+{
+    int x;
+    double y;
+};
+
+vector<S> v;
+
+//bitset<4001000> b;
+int i,n,d,m,k;
+long long a,b,c;
+
+long long o[1111111];
+int l[1];
+int j[1];
+int e;
+
+
+//int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=1000000007,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[1000333];
+stack<int> s;
+//set<int> s[222][22];
+//priority_queue<int> q1;
+queue<int> q;
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p,p1;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+//string r2;
+char r[53];
+//deque<int> de;
+//srand((int)time(NULL));
+/*bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}*/
+
+bool as(P a,P b)
+{
+    return a.x>b.x;
+}
+
+double f(int n,int m)
+{
+    return (double)(o[n]-o[m])/(-u[m].y+u[n].y);
+}
+
+int main()
+{
+    scanf("%d",&a);
+    for(int t=1;t<=a;t++)
+        scanf("%lld %lld %lld",&u[t].x,&u[t].y,&u[t].z);
+    sort(u+1,u+a+1,as);
+    for(int t=1;t<=a;t++)
+    {
+        o[t]=u[t].x*u[t].y-u[t].z;
+        if(v.size()<1)
+        v.push_back({t,1987654321});
+        else
+        {
+            for(;i+1<v.size()&&v[i+1].y>u[t].x;i++);
+            o[t]=max(o[t],o[v[i].x]+u[t].x*u[t].y-u[t].x*u[v[i].x].y-u[t].z);
+            for(;v.size()>1&&v[v.size()-1].y<f(v[v.size()-1].x,t);v.pop_back());
+            v.push_back({t,f(v[v.size()-1].x,t)});
+            if(i>=v.size()) i=v.size()-1;
+        }
+
+
+
+        x=max(x,o[t]);
+    }
+    printf("%lld",x);
+}
