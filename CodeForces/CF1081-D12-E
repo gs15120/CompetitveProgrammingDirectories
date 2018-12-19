@@ -1,0 +1,146 @@
+/*
+https://codeforces.com/blog/entry/63888
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y;
+
+    bool operator<(const P &a)const{
+        if(x!=a.x)
+              return x>a.x;
+        return y>a.y;
+    }
+
+};
+
+vector<long long> v[111111];
+
+//bitset<4001000> b;
+int i,n,d,m,k,a,b,c,h;
+
+long long o[112111];
+int l[111111];
+int j[1];
+int e;
+
+
+//int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[3];
+stack<long long> s;
+//set<int> s[222][22];
+//priority_queue<P> q;
+//queue<int> q;
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+
+string r;
+//char r[222253];
+//deque<int> de;
+//srand((int)time(NULL));
+/*bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}*/
+
+
+
+bool as(P a,P b)
+{
+    if(a.x!=b.x)
+        return a.x<b.x;
+    return a.y<b.y;
+}
+
+
+
+int main()
+{
+    scanf("%d",&a);
+    for(int t=2;t<=a;t+=2)
+        scanf("%lld",&o[t]);
+    for(int t=1;t<=a;t+=2)
+    {
+        for(long long h=1;h*h<o[t+1];h++)
+        if(o[t+1]%h==0)
+        {
+            x=(o[t+1]/h-h);
+            if(x%2==0)
+            s.push(x/2*x/2);
+            //v[t].push_back(x*x);
+        }
+        for(;s.size();s.pop())
+            v[t].push_back(s.top());
+        if(v[t].size()==0)
+        {
+            puts("No");
+            return 0;
+        }
+        if(t==1) o[t]=v[t][0];
+        else
+        {
+            if(v[t][v[t].size()-1]<=o[t-2]+o[t-1])
+            {
+                //printf("%lld %lld\n",o[1],o[3]);
+
+                //printf("%d %lld",t,v[t][v[t].size()-1]);
+                puts("No");
+                return 0;
+            }
+            n=0,m=v[t].size()-1;
+            for(;n<m;)
+            {
+                int h=(n+m)/2;
+                if(v[t][h]>o[t-2]+o[t-1]) m=h;
+                else n=h+1;
+            }
+            o[t]=v[t][n];
+        }
+        //printf("%d ##",t);
+        //for(int h=0;h<v[t].size();h++)
+        //    printf("%lld ",v[t][h]);
+        //    puts("");
+    }
+    puts("Yes");
+    printf("%lld %lld ",o[1],o[2]);
+    for(int t=3;t<=a;t+=2)
+    {
+        printf("%lld %lld ",o[t]-o[t-2]-o[t-1],o[t+1]);
+    }
+
+}
+
+
+
