@@ -1,0 +1,193 @@
+/*
+Let a,b the numbers of 1s befor changed, after changed.
+Let fi is the number of changed of integer i.
+If we flip 1~i, and know f1~fi, x1~xi-1 we can find xi.
+Since we can flip it plenty many times to flip, we can do ? (r,i) untill it changes [1 i].
+But the problem is, we cannot know where the flip changed. So we will use modulo 2 to figure it out.
+
+Let the number of 1s in the range before this flip be t, then b - a = (l - t) - t = s - 2t. So b-a is congruent to s modulo 2.
+So, if we let r (a-r+1) is not congruent to i modulo 2, we can know which one that the flip changed.
+
+*/
+#include <bits/stdc++.h>
+using namespace std;
+//using lint = long long;
+
+struct P
+{
+    int x,y;
+
+    bool operator<(const P &a)const{
+        if(x!=a.x)
+              return x>a.x;
+        return y>a.y;
+    }
+
+};
+
+vector<int> v;
+
+//bitset<4001000> b;
+int i,n,d,m,k,a,b,c,h;
+
+int o[311];
+int l[311];
+int j[331];
+int e;
+
+
+//int dx[10]={2,2,-2,-2,1,1,-1,-1},dy[10]={1,-1,1,-1,2,-2,2,-2};
+
+int dx[10]={0,1,0,-1,1,1,-1,-1},dy[10]={1,0,-1,0,1,-1,1,-1},dz[10]={0,0,0,0,1,-1};
+long long mod=998244353,mod2=1000000009,mod3=2017;
+long long x,z,y;
+double pi=3.14159265;
+P u[3];
+stack<int> s;
+//set<int> s[222][22];
+//priority_queue<P> q;
+queue<int> q;
+//2147483647
+//'1'==49;
+//'A'==65;
+//'a'==97;
+//unordered_
+//map<int,int> p;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+unordered_map<long long, int, custom_hash> safe_map;
+*/
+//list<int> l;
+//srand((int)time(NULL));
+string r;
+//char r[222253];
+//deque<int> de;
+
+/*bool as(P a,P b)
+{
+    if(a.x!=b.x)
+    return a.x<b.x;
+    return a.y<b.y;
+}*/
+
+
+
+bool as(P a,P b)
+{
+    if(a.x!=b.x)
+        return a.x<b.x;
+    return a.y<b.y;
+}
+
+
+
+int f(int n,int m,int u)
+{
+    printf("? %d %d\n",n,m);
+    fflush(stdout);
+    int p;
+    scanf("%d",&p);
+    return p;
+}
+
+void g1()
+{
+    
+    n=b;
+    for(int t=1;t<=a;t++)
+    {
+        for(;(c=f(t,t,0))&&(((n-c)%2+2)%2!=t%2);)
+        {
+            //puts("#");
+            for(int w=t;w<=a;l[w]++,w++);
+            n=c;
+        }
+        int x=n,y=c;
+        for(int w=1;w<t;w++)
+            if((l[w]+o[w])%2) x--;
+            else y--;
+        if((x>y&&l[t]%2==0)||(x<y&&l[t]%2)) o[t]=1;
+        for(int w=1;w<=t;w++)
+            l[w]++;
+        n=c;
+    }
+}
+
+void g2()
+{
+    
+    if(a==1)
+    {
+        if(b) o[1]=1;
+        return;
+    }
+
+    n=b;
+    for(;(c=f(2,a,0))&&((n-c)%2+2)%2;)
+    {
+        for(int t=1;t<=a;t++)
+            l[t]++;
+        n=c;
+    }
+    if((n>(a-c)&&l[1]%2==0)||(n<(a-c)&&l[1]%2)) o[1]=1;
+    for(int t=2;t<=a;t++)
+        l[t]++;
+    n=c;
+    for(int t=2;t<a;t++)
+    {
+        for(;(c=f(t-1,t,0))&&(((n-c)%2+2)%2!=t%2);)
+        {
+            //puts("#");
+            for(int w=t-1;w<=a;l[w]++,w++);
+            n=c;
+        }
+        int x=n,y=c;
+        for(int w=1;w<t;w++)
+            if((l[w]+o[w])%2) x--;
+            else y--;
+        if((x>y&&l[t]%2==0)||(x<y&&l[t]%2==1)) o[t]=1;
+        for(int w=1;w<=t;w++)
+            l[w]++;
+        n=c;
+    }
+    int x=0;
+    for(int t=1;t<a;x+=o[t],t++);
+    if(x<b) o[a]=1;
+}
+
+int main()
+{
+    
+    scanf("%d %d",&a,&b);
+    if(a==b)
+    {
+        for(int t=1;t<=a;o[t]=1,t++);
+    }
+    else if(b==0)
+    {
+        ;
+    }
+    else if(a%2) g2();
+    else g1();
+    printf("! ");
+    for(int t=1;t<=a;t++)
+        printf("%d",o[t]);
+    puts("");
+    fflush(stdout);
+}
+
+
+
