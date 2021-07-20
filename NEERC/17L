@@ -1,0 +1,165 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define lll __int128
+#define pi 3.1415926535897932384626
+using namespace std;
+struct S {  int x,y;};
+
+struct P{
+  int x,y;
+  bool operator <(const P &a)const
+  {
+    if(x!=a.x) return x>a.x;
+    return y<a.y;
+  };
+};
+int dx[10]={1,0,-1,0,1,1,-1,-1},dy[10]={0,1,0,-1,1,-1,1,-1};
+const ll mod=1000000007,Max=mod,Min=-Max;
+int a,b,e,d,ee;
+vector<int> pr;
+vector<int> ps;
+ll dp1[2810][10010],dp2[2810][10010];
+
+
+int sz(int n)
+{
+  if(n==0) return 0;
+  return sz(n/10)+1;
+}
+
+ll f1(int n,int m)
+{
+  if(m<0) return 0;
+  if(m==0) return 1;
+  if(n>=pr.size()) return 0;
+  if(dp1[n][m]>=0) return dp1[n][m];
+  ll x=(f1(n+1,m-pr[n])+f1(n+1,m));
+  return dp1[n][m]=x;
+}
+
+ll f2(int n,int m)
+{
+  if(m<0) return 0;
+  if(m==0) return 2;
+  if(n>=pr.size()) return 0;
+  if(dp2[n][m]>=0) return dp2[n][m];
+  ll x=0;
+  if(f1(n+1,m-pr[n])) x=f2(n+1,m-pr[n])+(ps[n]+2)*f1(n+1,m-pr[n]);
+  if(f1(n+1,m)) x+=f2(n+1,m);
+  
+  return dp2[n][m]=x;
+}
+
+int add(string &s,int a)
+{
+  if(a<10)
+  {
+    s+=(a+'0');
+    return 1;
+  }
+  else
+  {
+    int k=add(s,a/10)+1;
+    s+=(a%10+'0');
+    return k;
+  }
+}
+
+ll g(int n,int m,ll x,ll y,string &s)
+{
+  if(m<0) return 0;
+  if(m==0)
+  {
+    if(s.size()<2) assert(0);
+    s.pop_back();
+    s.pop_back();
+    s+=']';
+    s+=',';
+    s+=' ';
+    for(ll t=x-1;t<min((ll)s.size(),y);t++)
+    {
+      printf("%c",s[t]);
+      ee++;
+    }
+    s.pop_back();
+    s.pop_back();
+    s.pop_back();
+    s+=',';
+    s+=' ';
+    return s.size()+1;
+  }
+  ll z1=0,z2=0;
+  
+  if(f1(n+1,m-pr[n])&&f2(n+1,m-pr[n])+(ps[n]+1+s.size())*f1(n+1,m-pr[n])>=x)
+  {
+    int k=add(s,pr[n]);
+    s+=',';
+    s+=' ';
+    z1=g(n+1,m-pr[n],x,y,s);
+    if(s.size()<k+2) assert(0);
+    for(int t=1;t<=k+2;t++) s.pop_back();
+    x=max(x-z1,(ll)1);
+    y-=z1;
+  }
+  else if(f1(n+1,m-pr[n]))
+  {
+    z1=f2(n+1,m-pr[n])+(ps[n]+1+s.size())*f1(n+1,m-pr[n]);
+    x=max(x-z1,(ll)1);
+    y-=z1;
+  }
+  if(x<=y&&f1(n+1,m)&&f2(n+1,m)+(s.size()-1)*f1(n+1,m)>=x)
+  {
+    z2=g(n+1,m,x,y,s);
+    x=max(x-z2,(ll)1);
+    y-=z2;
+  }
+  else if(x<=y&&f1(n+1,m))
+  {
+    z2=f2(n+1,m);
+    x=max(x-z2,(ll)1);
+    y-=z2;
+  }
+  
+  return z1+z2;
+}
+
+int main()
+{
+  
+  pr.push_back(2);
+  ps.push_back(1);
+  for(int t=3;t<=10000;t+=2)
+  {
+    for(int p=3;p*p<=t;p+=2)
+    if(t%p==0) goto qwe;
+    pr.push_back(t);
+    ps.push_back(sz(t));
+    qwe:;
+  }
+  memset(dp1,-1,sizeof(dp1));
+  memset(dp2,-1,sizeof(dp2));
+  ll x,y;
+  scanf("%lld %lld",&x,&y);
+  ll p=y-x+1;
+  for(int t=2;;t++)
+  {
+    if(x>f2(0,t))
+    {
+      x-=f2(0,t);
+      y-=f2(0,t);
+      
+      continue;
+    }
+    string s;
+    s+='[';
+    g(0,t,x,y,s);
+    
+    
+    x=1;
+    y-=f2(0,t);
+   
+    if(y<x) break;
+  }
+  
+  puts("");
+}
